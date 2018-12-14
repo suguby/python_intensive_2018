@@ -19,8 +19,6 @@ BASE_X, BASE_Y = 0, -300
 class Missile:
 
     def __init__(self, x, y, color, x2, y2):
-        self.x = x
-        self.y = y
         self.color = color
 
         pen = turtle.Turtle(visible=False)
@@ -59,10 +57,12 @@ class Missile:
     def distance(self, x, y):
         return self.pen.distance(x=x, y=y)
 
-    def get_x(self):
+    @property
+    def x(self):
         return self.pen.xcor()
 
-    def get_y(self):
+    @property
+    def y(self):
         return self.pen.ycor()
 
 
@@ -97,7 +97,7 @@ def check_interceptions():
         if our_missile.state != 'explode':
             continue
         for enemy_missile in enemy_missiles:
-            if enemy_missile.distance(our_missile.get_x(), our_missile.get_y()) < our_missile.radius * 10:
+            if enemy_missile.distance(our_missile.x, our_missile.y) < our_missile.radius * 10:
                 enemy_missile.state = 'dead'
 
 
