@@ -9,7 +9,7 @@ window = turtle.Screen()
 window.setup(1200 + 3, 800 + 3)
 window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
 window.screensize(1200, 800)
-window.tracer(n=2)
+# window.tracer(n=2)
 
 ENEMY_COUNT = 5
 
@@ -82,7 +82,7 @@ def check_interceptions():
         our_missile = our_info['missile']
         for enemy_info in enemy_missiles:
             enemy_missile = enemy_info['missile']
-            if enemy_missile.distance(our_missile.xcor(), our_missile.ycor()) < 20:
+            if enemy_missile.distance(our_missile.xcor(), our_missile.ycor()) < our_info['radius'] * 10:
                 enemy_info['state'] = 'dead'
 
 
