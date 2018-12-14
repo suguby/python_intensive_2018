@@ -91,6 +91,18 @@ window.onclick(fire_missile)
 our_missiles = []
 enemy_missiles = []
 
+
+base = turtle.Turtle()
+base.hideturtle()
+base.speed(0)
+base.penup()
+base.setpos(x=BASE_X, y=BASE_Y)
+pic_path = os.path.join(BASE_PATH, "images", "base.gif")
+window.register_shape(pic_path)
+base.shape(pic_path)
+base.showturtle()
+
+
 while True:
     window.update()
     check_enemy_count()
