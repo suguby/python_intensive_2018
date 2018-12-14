@@ -9,7 +9,7 @@ window = turtle.Screen()
 window.setup(1200 + 3, 800 + 3)
 window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
 window.screensize(1200, 800)
-# window.tracer(n=2)
+window.tracer(n=2)
 
 ENEMY_COUNT = 5
 
@@ -59,6 +59,12 @@ class Missile:
     def distance(self, x, y):
         return self.pen.distance(x=x, y=y)
 
+    def get_x(self):
+        return self.pen.xcor()
+
+    def get_y(self):
+        return self.pen.ycor()
+
 
 def fire_missile(x, y):
     info = Missile(color='white', x=BASE_X, y=BASE_Y, x2=x, y2=y)
@@ -91,7 +97,7 @@ def check_interceptions():
         if our_missile.state != 'explode':
             continue
         for enemy_missile in enemy_missiles:
-            if enemy_missile.distance(our_missile.pen.xcor(), our_missile.pen.ycor()) < our_missile.radius * 10:
+            if enemy_missile.distance(our_missile.get_x(), our_missile.get_y()) < our_missile.radius * 10:
                 enemy_missile.state = 'dead'
 
 
