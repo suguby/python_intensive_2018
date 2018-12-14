@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import math
+import os
 import turtle
 import random
 import time
 
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+
 window = turtle.Screen()
 window.setup(1200 + 3, 800 + 3)
-window.bgpic("images/background.png")
+window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
 window.screensize(1200, 800)
 # window.tracer(n=2)
 

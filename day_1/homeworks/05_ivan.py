@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-
+import os
 from math import degrees, acos
 from turtle import Screen, Turtle
 from random import randint
 
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 # координаты базы:
 BASE_X, BASE_Y = 0, -300
@@ -63,7 +64,7 @@ def fire_missile(x, y, pos_x=BASE_X, pos_y=BASE_Y):
 # создаем окно игры:
 window = Screen()
 window.setup(1200 + 3, 800 + 3)
-window.bgpic("images/background.png")
+window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
 window.screensize(1200, 800)
 # window.tracer(n=2, delay=0)
 
