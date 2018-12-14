@@ -17,15 +17,15 @@ window.screensize(1200, 800)
 BASE_X, BASE_Y = 0, -300
 
 
-def calc_heading(x1, y1,x2, y2):
-    dx = x2-x1
+def calc_heading(x1, y1, x2, y2):
+    dx = x2 - x1
     dy = y2 - y1
-    length = (dx ** 2 + (dy) ** 2) ** 0.5
+    length = (dx ** 2 + dy ** 2) ** 0.5
     cos_alpha = dx / length
     alpha = math.acos(cos_alpha)
     alpha = math.degrees(alpha)
     if dy < 0:
-        alpha =- alpha
+        alpha = -alpha
     return alpha
 
 
@@ -43,28 +43,30 @@ def fire_missile(x, y):
             "state": "launched", "radius": 0}
     our_missiles.append(info)
 
-def against_missile():
-    c = random.randint(-1000, 1000)
-    m = turtle.Turtle(visible=False)
-    m.speed(0)
-    m.color("red")
-    m.penup()
-    m.setpos(x=c, y=800)
-    m.pendown()
-    m.showturtle()
-    heading1 = calc_heading(x1=c, y1=800, x2=BASE_X, y2=BASE_Y)
-    m.setheading(heading1)
-    #while m.distance(x=BASE_X, y=BASE_Y) > 10:
-    #    m.forward(4)
-    a_info = {"missile": m, "target": [BASE_X, BASE_Y],
+
+def fire_enemy_missile():
+    missile_x = random.randint(-1000, 1000)
+    missile = turtle.Turtle(visible=False)
+    missile.speed(0)
+    missile.color("red")
+    missile.penup()
+    missile.setpos(x=missile_x, y=400)
+    missile.pendown()
+    missile.showturtle()
+    heading1 = calc_heading(x1=missile_x, y1=800, x2=BASE_X, y2=BASE_Y)
+    missile.setheading(heading1)
+    # while missile.distance(x=BASE_X, y=BASE_Y) > 10:
+    #    missile.forward(4)
+    a_info = {"missile": missile, "target": [BASE_X, BASE_Y],
               "state": "launched", "radius": 0}
     a_missiles.append(a_info)
+
 
 window.onclick(fire_missile)
 our_missiles = []
 a_missiles = []
-for i in range(1,5,1):
-    against_missile()
+for i in range(1, 5, 1):
+    fire_enemy_missile()
 while True:
     window.update()
     for info in our_missiles:
