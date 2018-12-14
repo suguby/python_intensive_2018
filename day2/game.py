@@ -61,10 +61,29 @@ def move_missiles(missiles):
                 info['state'] = 'dead'
             else:
                 missile.shapesize(info['radius'])
+        elif state == 'dead':
+            missile.clear()
+            missile.hideturtle()
 
     dead_missiles = [info for info in missiles if info['state'] == 'dead']
     for dead in dead_missiles:
         missiles.remove(dead)
+
+
+def check_enemy_count():
+    if len(enemy_missiles) < ENEMY_COUNT:
+        fire_enemy_missile()
+
+
+def check_interceptions():
+    for our_info in our_missiles:
+        if our_info['state'] != 'explode':
+            continue
+        our_missile = our_info['missile']
+        for enemy_info in enemy_missiles:
+            enemy_missile = enemy_info['missile']
+            if enemy_missile.distance(our_missile.xcor(), our_missile.ycor()) < 20:
+                enemy_info['state'] = 'dead'
 
 
 window.onclick(fire_missile)
@@ -74,9 +93,7 @@ enemy_missiles = []
 
 while True:
     window.update()
-
-    if len(enemy_missiles) < ENEMY_COUNT:
-        fire_enemy_missile()
-
+    check_enemy_count()
+    check_interceptions()
     move_missiles(missiles=our_missiles)
     move_missiles(missiles=enemy_missiles)
