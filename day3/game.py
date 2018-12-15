@@ -97,7 +97,13 @@ class MissileBase(Building):
     INITIAL_HEALTH = 2000
 
     def get_pic_name(self):
-        return f"{self.name}.gif"
+        for missile in our_missiles:
+            if missile.distance(self.x, self.y) < 20:
+                pic_name = f"{self.name}_opened.gif"
+                break
+        else:
+            pic_name = f"{self.name}.gif"
+        return pic_name
 
 
 def fire_missile(x, y):
