@@ -157,7 +157,7 @@ def check_impact():
                 base.hit_missle()
 
 
-number_of_bases = 1
+number_of_bases = 2
 for iterator in range(number_of_bases):
     info = Base(0, -300, 'base')
     our_bases.append(info)
