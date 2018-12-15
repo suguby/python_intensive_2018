@@ -1,6 +1,7 @@
 import math
 import os
 import random
+import time
 import turtle
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -218,11 +219,13 @@ def game():
         check_interceptions()
         move_missiles(missiles=our_missiles)
         move_missiles(missiles=enemy_missiles)
+        time.sleep(.01)
 
     pen = turtle.Turtle(visible=False)
     pen.speed(0)
     pen.penup()
-    pen.write('game over', align="center", font=["Arial", 20, "bold"])
+    pen.color('red')
+    pen.write('game over', align="center", font=["Arial", 80, "bold"])
 
 
 while True:
