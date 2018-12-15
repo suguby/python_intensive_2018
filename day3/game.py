@@ -78,6 +78,15 @@ class Building:
         pen.showturtle()
         self.pen = pen
 
+        title = turtle.Turtle(visible=False)
+        title.speed(0)
+        title.penup()
+        title.setpos(x=self.x, y=self.y - 85)
+        title.color('purple')
+        title.write(str(self.health), align="center", font=["Arial", 20, "bold"])
+        self.title = title
+        self.title_health = self.health
+
     def get_pic_name(self):
         if self.health < self.INITIAL_HEALTH * 0.2:
             return f"{self.name}_3.gif"
@@ -91,6 +100,10 @@ class Building:
         if self.pen.shape() != pic_path:
             window.register_shape(pic_path)
             self.pen.shape(pic_path)
+        if self.health != self.title_health:
+            self.title_health = self.health
+            self.title.clear()
+            self.title.write(str(self.title_health), align="center", font=["Arial", 20, "bold"])
 
     def is_alive(self):
         return self.health > 0
