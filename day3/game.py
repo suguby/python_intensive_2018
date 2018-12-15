@@ -92,6 +92,9 @@ class Building:
             window.register_shape(pic_path)
             self.pen.shape(pic_path)
 
+    def is_alive(self):
+        return self.health > 0
+
 
 class MissileBase(Building):
     INITIAL_HEALTH = 2000
@@ -114,9 +117,11 @@ def fire_missile(x, y):
 def fire_enemy_missile():
     x = random.randint(-600, 600)
     y = 400
-    target = random.choice(buildings)
-    info = Missile(color='red', x=x, y=y, x2=target.x, y2=target.y)
-    enemy_missiles.append(info)
+    alive_buildings = [building for building in buildings if building.is_alive()]
+    if alive_buildings:
+        target = random.choice(alive_buildings)
+        info = Missile(color='red', x=x, y=y, x2=target.x, y2=target.y)
+        enemy_missiles.append(info)
 
 
 def move_missiles(missiles):
