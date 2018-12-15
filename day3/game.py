@@ -6,6 +6,12 @@ import turtle
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 ENEMY_COUNT = 5
 BASE_X, BASE_Y = 0, -300
+BUILDIG_INFOS = {
+    'house': [BASE_X - 500, BASE_Y],
+    'kremlin': [BASE_X - 200, BASE_Y],
+    'nuclear': [BASE_X + 200, BASE_Y],
+    'skyscraper': [BASE_X + 400, BASE_Y]
+}
 
 
 class Missile:
@@ -106,7 +112,7 @@ class Building:
             self.title.write(str(self.title_health), align="center", font=["Arial", 20, "bold"])
 
     def is_alive(self):
-        return self.health > 0
+        return self.health >= 0
 
 
 class MissileBase(Building):
@@ -173,46 +179,54 @@ def check_impact():
                 building.health -= 100
                 print(f'{building.name} - {building.health}')
 
-
-window = turtle.Screen()
-window.setup(1200 + 3, 800 + 3)
-window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
-window.screensize(1200, 800)
-window.tracer(n=2)
-window.onclick(fire_missile)
-
-our_missiles = []
-enemy_missiles = []
-buildings = []
-
-
-base = MissileBase(x=BASE_X, y=BASE_Y, name='base')
-buildings.append(base)
-
-building_infos = {
-    'house': [BASE_X - 400, BASE_Y],
-    'kremlin': [BASE_X - 200, BASE_Y],
-    'nuclear': [BASE_X + 200, BASE_Y],
-    'skyscraper': [BASE_X + 400, BASE_Y]
-}
-
-for name, position in building_infos.items():
-    building = Building(x=position[0], y=position[1], name=name)
-    buildings.append(building)
-
-
 def draw_buildings():
     for building in buildings:
         building.draw()
 
 
+window = turtle.Screen()
+window.setup(1200 + 3, 800 + 3)
+window.screensize(1200, 800)
+
+
+def game():
+    global our_missiles, enemy_missiles, buildings, base
+
+    window.clear()
+    window.bgpic(os.path.join(BASE_PATH, "images", "background.png"))
+    window.tracer(n=2)
+    window.onclick(fire_missile)
+
+    our_missiles = []
+    enemy_missiles = []
+    buildings = []
+
+    base = MissileBase(x=BASE_X, y=BASE_Y, name='base')
+    buildings.append(base)
+
+    for name, position in BUILDIG_INFOS.items():
+        building = Building(x=position[0], y=position[1], name=name)
+        buildings.append(building)
+
+    while True:
+        window.update()
+        if game_over():
+            break
+        draw_buildings()
+        check_impact()
+        check_enemy_count()
+        check_interceptions()
+        move_missiles(missiles=our_missiles)
+        move_missiles(missiles=enemy_missiles)
+
+    pen = turtle.Turtle(visible=False)
+    pen.speed(0)
+    pen.penup()
+    pen.write('game over', align="center", font=["Arial", 20, "bold"])
+
+
 while True:
-    window.update()
-    if game_over():
-        continue
-    draw_buildings()
-    check_impact()
-    check_enemy_count()
-    check_interceptions()
-    move_missiles(missiles=our_missiles)
-    move_missiles(missiles=enemy_missiles)
+    game()
+    answer = window.textinput(title='Привет!', prompt='Хотите сыграть еще? д/н')
+    if answer.lower() not in ('д', 'да', 'y', 'yes'):
+        break
