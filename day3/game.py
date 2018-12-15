@@ -59,6 +59,7 @@ class Missile:
 
 
 class Building:
+    INITIAL_HEALTH = 1000
 
     def __init__(self, x, y, name):
         self.name = name
@@ -75,13 +76,14 @@ class Building:
         pen.shape(pic_path)
         pen.showturtle()
         self.pen = pen
-        self.health = 2000
+        self.health = self.INITIAL_HEALTH
 
     def get_pic_name(self):
         return f"{self.name}_1.gif"
 
 
 class MissileBase(Building):
+    INITIAL_HEALTH = 2000
 
     def get_pic_name(self):
         return f"{self.name}.gif"
@@ -160,8 +162,8 @@ building_infos = {
 }
 
 for name, position in building_infos.items():
-    base = Building(x=position[0], y=position[1], name=name)
-    buildings.append(base)
+    building = Building(x=position[0], y=position[1], name=name)
+    buildings.append(building)
 
 
 while True:
